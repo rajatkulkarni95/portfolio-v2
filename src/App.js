@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import styled, { ThemeProvider } from "styled-components";
+import { HeaderContainer } from "./containers/HeaderContainer";
+import { Routes } from "./routes";
+import { darkTheme, lightTheme } from "./theme";
+import { GlobalStyle } from "./theme/globalStyle";
 
 function App() {
+  const [theme, setTheme] = useState("dark");
+
+  const themeSwitcher = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <GlobalStyle />
+      <Wrapper>
+        <HeaderContainer />
+        <Routes />
+      </Wrapper>
+    </ThemeProvider>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  height: 100%;
+  margin: 20px auto;
+  background: ${(p) => p.theme.colors.background};
+`;
 
 export default App;
